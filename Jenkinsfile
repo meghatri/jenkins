@@ -3,17 +3,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building the code'
+                echo 'Building the code with Maven Automation'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running unit tests'
+                echo 'Running unit tests using JUnit for testing'
             }
             post {
                 always {
                     emailext (
-                        subject: 'Unit and Integration Tests Status',
+                        subject: 'Unit and Integration Tests SUCCESS',
                         to: 'meghatri@gmail.com', 
                         body: "Unit and Integration Tests completed SUCCESSFULLY.",
                         attachLog: true
@@ -21,7 +21,7 @@ pipeline {
                 }
                 failure {
                     emailext(
-                        subject: 'Unit and Integration Tests Status',
+                        subject: 'Unit and Integration Tests Status FAILED',
                         to: 'meghatri05@gmail.com',
                         body: 'Failure! Please check logs.',
                         attachLog: true
@@ -31,12 +31,12 @@ pipeline {
         }
         stage('Code Analysis') {
             steps {
-                echo 'Analyzing the code'
+                echo 'Analyzing the code using SonarQube'
             }
         }
         stage('Security Scan') {
             steps {
-                echo 'Performing a security'
+                echo 'Performing a security scan using OWASP ZAP'
             }
             post {
                 always {
@@ -59,7 +59,7 @@ pipeline {
         }
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying the application'
+                echo 'Deploying the application to Azured Staging Server'
             }
         }
         stage('Integration Tests on Staging') {
@@ -69,7 +69,7 @@ pipeline {
             post {
                 always {
                     emailext(
-                        subject: 'Integration Tests on Staging Status',
+                        subject: 'Integration Tests on Staging SUCCESS',
                         to: 'meghatri05@gmail.com',
                         body: "Integration Tests on Staging completed SUCCESSFULLY.",
                         attachLog: true
@@ -77,7 +77,7 @@ pipeline {
                 }
                 failure {
                     emailext(
-                        subject: 'Integration Tests on Staging Status',
+                        subject: 'Integration Tests on Staging FAILED',
                         to: 'meghatri05@gmail.com',
                         body: 'Failure! Please check the logs.',
                         attachLog: true
@@ -87,25 +87,7 @@ pipeline {
         }
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying the application'
-            }
-            post {
-                always {
-                    emailext(
-                        subject: 'Deploying to Production',
-                        to: 'meghatri05@gmail.com',
-                        body: "Deployment completed SUCCESSFULLY.",
-                        attachLog: true
-                    )
-                }
-                failure {
-                    emailext(
-                        subject: 'Deploying to Production',
-                        to: 'meghatri05@gmail.com',
-                        body: 'Failure! Please check the logs',
-                        attachLog: true
-                    )
-                }
+                echo 'Deploying the application to Production Environment in Azure'
             }
         }
     }
