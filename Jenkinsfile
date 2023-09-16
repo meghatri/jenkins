@@ -12,7 +12,7 @@ pipeline {
       }
       post {
         success {
-            mail to: "meghatri05@gmail.com",
+             to: "meghatri05@gmail.com",
             subject: 'Unit and Integration Tests Status',
             body: "Unit and Integration Tests completed SUCCESSFULLY.",
             attachLog: true
