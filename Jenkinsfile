@@ -73,9 +73,7 @@ pipeline {
           emailext(
             subject: 'Integration Tests on Staging Status',
             to: 'meghatri05@gmail.com',
-            body: "Integration Tests on Staging completed
-            SUCCESSFULLY.
-            ",
+            body: "Integration Tests on Staging complete SUCCESSFULLY.",
             attachLog: true
           )
         }
