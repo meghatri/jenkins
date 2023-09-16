@@ -1,43 +1,115 @@
 pipeline {
-    agent any
-    environment {
-        DIRECTORY_PATH = 'C:/Users/MeghaKhatri/Megha/Deakin/2023_T2/Deakin-Unit-Page-main/index.html' // Update with your actual code directory path
-        TESTING_ENVIRONMENT = 'S222480654_MeghaK-DEV'
-        PRODUCTION_ENVIRONMENT = 'MeghaKhatri-PROD'
+  agent any
+  stages {
+    stage('Build') {
+      steps {
+        echo 'Building the code'
+        sh 'mvn clean install'
+      }
     }
-    stages {
-        stage('Build') {
-            steps {
-                echo "Fetching the source code from the directory path: ${DIRECTORY_PATH}"
-                echo "compile the code and generate any necessary artifacts"
-            }
+    stage('Unit and Integration Tests') {
+      steps {
+        echo 'Running unit tests'
+        sh 'mvn test'
+      }
+      post {
+        always {
+          emailext(
+            subject: 'Unit and Integration Tests Status',
+            to: 'meghatri05@gmail.com',
+            body: "Unit and Integration Tests completed SUCCESSFULLY.",
+            attachLog: true
+          )
         }
-        stage('Test') {
-            steps {
-                echo "Running unit tests"
-                echo "Running integration tests"
-            }
+        failure {
+          emailext(
+            subject: 'Unit and Integration Tests Status',
+            to: 'meghatri05@gmail.com',
+            body: 'Failure! Please check logs.',
+            attachLog: true
+          )
         }
-        stage('Code Quality Check') {
-            steps {
-                echo "Checking the quality of the code"
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo "Deploying the application to the testing environment: ${TESTING_ENVIRONMENT}"
-            }
-        }
-        stage('Approval') {
-            steps {
-                echo "Waiting for manual approval..."
-                sleep(time: 10, unit: 'SECONDS')
-            }
-        }
-        stage('Deploy to Production') {
-            steps {
-                echo "Deploying the code to the production environment: ${PRODUCTION_ENVIRONMENT}"
-            }
-        }
+      }
     }
-}
+    stage('Code Analysis') {
+      steps {
+        echo 'Analyzing the code'
+      }
+    }
+    stage('Security Scan') {
+      steps {
+        echo 'Performing a security'
+      }
+      post {
+        always {
+          emailext(
+            subject: 'Security Scan Status',
+            to: 'meghatri05@gmail.com',
+            body: "Security Scan completed SUCCESSFULLY.",
+            attachLog: true
+          )
+        }
+        failure {
+          emailext(
+            subject: 'Security Scan Status',
+            to: 'meghatri05@gmail.com',
+            body: 'Failure! Please check the logs.',
+            attachLog: true
+          )
+        }
+      }
+    }
+    stage('Deploy to Staging') {
+      steps {
+        echo 'Deploying the application'
+      }
+    }
+    stage('Integration Tests on Staging') {
+      steps {
+        echo 'Running integration tests on the staging environment'
+      }
+      post {
+        always {
+          emailext(
+            subject: 'Integration Tests on Staging Status',
+            to: 'meghatri05@gmail.com',
+            body: "Integration Tests on Staging completed
+            SUCCESSFULLY.
+            ",
+            attachLog: true
+          )
+        }
+        failure {
+          emailext(
+            subject: 'Integration Tests on Staging Status',
+            to: 'meghatri05@gmail.com',
+            body: 'Failure! Please check the logs.',
+            attachLog: true
+          )
+        }
+      }
+    }
+    stage('Deploy to Production') {
+      steps {
+        echo 'Deploying the application'
+      }
+      post {
+        always {
+          emailext(
+            subject: 'Deploying to Production',
+            to: 'meghatri05@gmail.com',
+            body: "Deployment completed SUCCESSFULLY.",
+            attachLog: true
+          )
+        }
+        failure {
+          emailext(
+            subject: 'Deploying to Production',
+            to: 'meghatri05@gmail.com',
+            body: 'Failure! Please check the logs',
+            attachLog: true
+          )
+        }
+      }
+    }
+  }
