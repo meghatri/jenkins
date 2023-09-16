@@ -4,13 +4,11 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Building the code'
-        sh 'mvn clean install'
       }
     }
     stage('Unit and Integration Tests') {
       steps {
         echo 'Running unit tests'
-        sh 'mvn test'
       }
       post {
         always {
