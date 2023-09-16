@@ -12,11 +12,12 @@ pipeline {
       }
       post {
         success {
-             to: "meghatri05@gmail.com",
+         script {
+             emailext to: "meghatri05@gmail.com",
             subject: 'Unit and Integration Tests Status',
             body: "Unit and Integration Tests completed SUCCESSFULLY.",
             attachLog: true
-          
+         }
         }
         failure {
           emailext(
