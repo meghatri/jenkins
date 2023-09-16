@@ -11,13 +11,12 @@ pipeline {
         echo 'Running unit tests'
       }
       post {
-        always {
-          emailext(
+        success {
+            mailto: 'meghatri05@gmail.com',
             subject: 'Unit and Integration Tests Status',
-            mail to: 'meghatri05@gmail.com',
             body: "Unit and Integration Tests completed SUCCESSFULLY.",
             attachLog: true
-          )
+          
         }
         failure {
           emailext(
