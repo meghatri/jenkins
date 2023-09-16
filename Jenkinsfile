@@ -12,11 +12,7 @@ pipeline {
             }
             post {
                 always {
-                    emailext
-                        subject: 'Unit and Integration Tests Status',
-                        to: 'meghatri05@gmail.com',
-                        body: "Unit and Integration Tests completed SUCCESSFULLY.",
-                        attachLog: true
+                    emailext subject: 'Unit and Integration Tests Status', to: 'meghatri05@gmail.com', body: "Unit and Integration Tests completed SUCCESSFULLY.", attachLog: true
                     
                 }
                 failure {
