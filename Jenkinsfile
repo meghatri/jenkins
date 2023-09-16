@@ -11,15 +11,20 @@ pipeline {
                 echo 'Running unit tests'
             }
             post {
-                success {
-                     mail body: 'Unit and Integration Tests completed SUCCESSFULLY.', subject: 'Unit and Integration Tests Status', to: 'meghatri05@gmail.com'
+               always {
+                    emailext (
+                        subject: 'Unit and Integration Tests Status',
+                        to: 'meghatri05@gmail.com',
+                        body: "Unit and Integration Tests completed SUCCESSFULLY.",
+                        attachLog: true
+                    )
                 }
                 failure {
-                    success {
-                     mail body: 'Failure! Please check logs.', subject: 'Unit and Integration Tests Status', to: 'meghatri05@gmail.com'
-                }
-                    
-                }
+                    emailext (
+                        subject: 'Unit and Integration Tests Status',
+                        to: 'meghatri05@gmail.com',
+                        body: 'Failure! Please check logs.',
+                        attachLog: true
             }
         }
         stage('Code Analysis') {
