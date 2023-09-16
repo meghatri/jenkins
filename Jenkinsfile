@@ -25,6 +25,7 @@ pipeline {
                         to: 'meghatri05@gmail.com',
                         body: 'Failure! Please check logs.',
                         attachLog: true
+                        )
             }
         }
         stage('Code Analysis') {
